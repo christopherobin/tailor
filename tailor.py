@@ -15,7 +15,10 @@ def screen_layout():
     screens = []
     for line in check_output(['xrandr']).decode('utf-8').split('\n'):
         if ' connected ' in line:
-            info = line.split()[2].split('+')
+            info_start = 2
+            if ' primary ' in line:
+                info_start = 3
+            info = line.split()[info_start].split('+')
             res = info[0].split('x')
             screens.append({ 'x': int(info[1]), 'y': int(info[2]), 'w': int(res[0]), 'h': int(res[1])})
     return screens
